@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="ligth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>Esqueci senha</title>
+</head>
+
+<body class="d-flex align-items-center p-4 bg-body-tertiary">
+    <main class="w-100 m-auto form-container">
+        <form>
+            <img src="{{ url_for('static', filename='images/LM-Photoroom.png') }}" alt="Minha foto" width="95"
+                class="mx-auto d-block mb-3" />
+            <h1 class="h4 fw-normal text-center">Recuperar senha</h1>
+            <div class="form-floating">
+                <input type="email" class="form-control" id="floatingInput" placeholder="seu-email@gmail.com" />
+                <label for="floatingInput">Email</label>
+            </div>
+            <div class="form-floating">
+                <input type="senha" class="form-control" id="floatingInput" placeholder="senha" />
+                <label for="floatingInput">Nova senha</label>
+            </div>
+            <div class="form-floating">
+                <input type="senha" class="form-control" id="floatingInput" placeholder="senha" />
+                <label for="floatingInput">Repita a senha</label>
+            </div>
+            <div class="form-check tex-start">
+            </div>
+            <button class="btn btn-primary w-100 py-2">Recuperar</button>
+            <!--<p class="text-body-secondary mt-5 mb-3">Pim</p>-->
+        </form>
+        <main>
+</body>
+
+</html>
