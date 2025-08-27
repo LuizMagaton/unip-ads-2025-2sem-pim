@@ -6,7 +6,7 @@ import bcrypt
 app = Flask(__name__)
 
 @app.route("/")
-def index_html():
+def index():
     return render_template("index.html")
 
 @app.route("/login")
