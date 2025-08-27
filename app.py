@@ -10,22 +10,18 @@ from functools import wraps
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-# Caminho para o arquivo de usuários
 USERS_FILE = 'users.json'
 
-# Função para carregar usuários do arquivo JSON
 def load_users():
     if os.path.exists(USERS_FILE):
         with open(USERS_FILE, 'r') as f:
             return json.load(f)
     return {}
 
-# Função para salvar usuários no arquivo JSON
 def save_users(users):
     with open(USERS_FILE, 'w') as f:
         json.dump(users, f, indent=4)
 
-# Decorator para verificar se o usuário está logado
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -83,13 +79,11 @@ def register():
             flash('As senhas não coincidem', 'danger')
             return render_template("register.html")
         
-        # Criptografar a senha
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         
-        # Adicionar novo usuário
         users[email] = {
             'username': email.split('@')[0],
-            'password': hashed_password.decode('utf-8'),  # Armazenar como string
+            'password': hashed_password.decode('utf-8'),
             'telefone': telefone
         }
         
@@ -100,16 +94,13 @@ def register():
     
     return render_template("register.html")
 
-# Função para gerar código de verificação
 def generate_verification_code():
     return ''.join(random.choices(string.digits, k=6))
 
 
 
-# Dicionário para armazenar códigos de verificação temporários
 verification_codes = {}
 
-# Dicionário para armazenar códigos de exclusão de conta
 deletion_codes = {}
 
 @app.route("/esquecisenha", methods=['GET', 'POST'])
@@ -122,13 +113,11 @@ def esquecisenha():
         
         users = load_users()
         
-        # Etapa 1: Solicitar código de verificação
         if email and not verification_code and not new_password:
             if email not in users:
                 flash('Email não encontrado', 'danger')
                 return render_template("esqueci_senha.html")
             
-            # Gerar código de verificação
             code = generate_verification_code()
             expiration_time = datetime.now() + timedelta(seconds=30)
             verification_codes[email] = {
@@ -136,11 +125,9 @@ def esquecisenha():
                 'expiration': expiration_time
             }
             
-            # Mostrar código temporário
             flash(f'Um código de verificação foi enviado para {email}. Por favor, verifique seu email. (Código: {code})', 'info')
             return render_template("esqueci_senha.html", email=email, code_sent=True)
         
-        # Etapa 2: Verificar código e atualizar senha
         elif email and verification_code and new_password and confirm_password:
             if email not in verification_codes:
                 flash('Nenhum código de verificação foi solicitado para este email', 'danger')
@@ -148,18 +135,15 @@ def esquecisenha():
             
             code_info = verification_codes[email]
             
-            # Verificar se o código expirou
             if datetime.now() > code_info['expiration']:
                 del verification_codes[email]
                 flash('O código de verificação expirou. Por favor, solicite um novo código', 'danger')
                 return render_template("esqueci_senha.html")
             
-            # Verificar se o código está correto
             if verification_code != code_info['code']:
                 flash('Código de verificação inválido', 'danger')
                 return render_template("esqueci_senha.html", email=email, code_sent=True)
             
-            # Verificar se as senhas coincidem
             if new_password != confirm_password:
                 flash('As senhas não coincidem', 'danger')
                 return render_template("esqueci_senha.html", email=email, code_sent=True)
@@ -172,7 +156,6 @@ def esquecisenha():
             
             save_users(users)
             
-            # Limpar o código de verificação
             del verification_codes[email]
             
             flash('Senha atualizada com sucesso! Faça login com sua nova senha.', 'success')
@@ -234,10 +217,8 @@ def delete_account():
             del users[email]
             save_users(users)
         
-        # Limpar o código de verificação
         del deletion_codes[email]
         
-        # Encerrar a sessão
         session.clear()
         
         flash('Sua conta foi excluída com sucesso', 'success')
