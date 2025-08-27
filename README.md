@@ -32,6 +32,6 @@ O projeto consiste na criação de um **site interativo**, utilizando **Python, 
 ---
 
 ## 👨‍💻 Autor
-Projeto desenvolvido por **Luiz Magaton**, estudante de **Análise e Desenvolvimento de Sistemas**.  
+Projeto desenvolvido por **Luiz Magaton** e **Carlos Storti**, estudantes de **Análise e Desenvolvimento de Sistemas**.  
 
 ---
