@@ -1,9 +1,29 @@
 html,
 body {
     height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-bottom: 0 !important;
+}
+
+main {
+    flex: 1;
+    padding-bottom: 0;
+}
+
+footer {
+    margin-top: auto;
+    background-color: #212529 !important;
 }
 
 .form-container {
     max-width: 350px;
     padding: 1rem;
+    height: auto;
 }
