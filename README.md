@@ -17,8 +17,7 @@ O projeto consiste na criação de um **site interativo**, utilizando **Python, 
 ## 🛠️ Tecnologias Utilizadas
 - **Python** → lógica do sistema e backend.  
 - **HTML5** → estruturação do site.  
-- **CSS3** → estilização, layout e design responsivo.  
-- **JavaScript** → interatividade e recursos dinâmicos.  
+- **CSS3** → estilização, layout e design responsivo.
 
 ---
 
