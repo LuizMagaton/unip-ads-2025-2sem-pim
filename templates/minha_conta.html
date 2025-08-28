@@ -25,10 +25,9 @@
       {% endif %}
     {% endwith %}
     
-    <div class="card">
-      <div class="card-body p-4">
-        <img src="{{ url_for('static', filename='images/LM-Photoroom.png') }}" alt="Minha foto" width="95"
-          class="mx-auto d-block mb-3" />
+    <form>
+      <img src="{{ url_for('static', filename='images/logopreto.png') }}" alt="Logo" width="95"
+         class="mx-auto d-block mb-3" />
         <h1 class="h4 fw-normal text-center">Minha Conta</h1>
         <p class="text-center text-muted mb-4">Gerencie suas informações pessoais</p>
         
@@ -53,8 +52,7 @@
           </button>
           <a href="{{ url_for('index') }}" class="btn btn-outline-secondary mt-3">Voltar para Home</a>
         </div>
-      </div>
-    </div>
+    </form>
     
     <!-- Modal de confirmação para exclusão de conta -->
     <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
