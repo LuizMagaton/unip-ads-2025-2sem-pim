@@ -6,14 +6,14 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import timedelta
 import bcrypt, time, random, re
 
-# =========================
-# App & Config
-# =========================
+
+
+
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "mude-esta-chave"
+app.config["SECRET_KEY"] = "5c1a32e7f5c8498eaf8b634c2fb7b981e347bbd9e462a06f9a6b8f71b63ad72d"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///usuarios.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# "Lembrar login"
+
 app.permanent_session_lifetime = timedelta(days=30)
 
 db = SQLAlchemy(app)
@@ -27,9 +27,7 @@ class Usuario(db.Model):
     telefone = db.Column(db.String(32), nullable=False)
     senha = db.Column(db.LargeBinary, nullable=False)  # hash bcrypt
 
-# =========================
-# Utilidades
-# =========================
+
 def senha_forte(s: str) -> bool:
     """Mín. 8 caracteres, com letras e números."""
     if len(s) < 8:
@@ -50,9 +48,8 @@ def exigir_login():
         return redirect(url_for("login"))
     return None
 
-# Armazenamento temporário de códigos (recuperação de senha e exclusão de conta)
-reset_codes = {}   # {email: {"code": "123456", "time": epoch}}
-delete_codes = {}  # {email: {"code": "123456", "time": epoch}}
+reset_codes = {}   
+delete_codes = {}  
 EXPIRA_SEGUNDOS = 30
 
 def gerar_codigo():
@@ -70,9 +67,9 @@ def valido(caixa, email, code):
         return False, "Código inválido."
     return True, ""
 
-# =========================
+
 # Rotas
-# =========================
+
 @app.route("/")
 def index():
     user = usuario_atual()
@@ -150,37 +147,37 @@ def esquecisenha():
 
         user = Usuario.query.filter_by(email=email).first()
 
-        # 1) Solicitar código
+
         if email and not code:
             if not user:
                 flash("Email não encontrado.", "danger")
-                return render_template("esquecisenha.html", code_sent=False)
+                return render_template("esqueci_senha.html", code_sent=False)
 
             codigo = gerar_codigo()
             reset_codes[email] = {"code": codigo, "time": time.time()}
 
-            # Em produção: enviar por email. Aqui mostramos no flash para teste.
+        
             flash(f"Código: {codigo}", "info")
-            return render_template("esquecisenha.html", code_sent=True, email=email)
+            return render_template("esqueci_senha.html", code_sent=True, email=email)
 
-        # 2) Validar e trocar senha
+
         if code:
             ok, motivo = valido(reset_codes, email, code)
             if not ok:
                 flash(motivo, "warning" if "expirado" in motivo.lower() else "danger")
-                return render_template("esquecisenha.html", code_sent=False)
+                return render_template("esqueci_senha.html", code_sent=False)
 
             if nova != confirmar:
                 flash("As senhas não conferem.", "danger")
-                return render_template("esquecisenha.html", code_sent=True, email=email)
+                return render_template("esqueci_senha.html", code_sent=True, email=email)
 
             if not senha_forte(nova):
                 flash("Senha fraca: use ao menos 8 caracteres, com letras e números.", "danger")
-                return render_template("esquecisenha.html", code_sent=True, email=email)
+                return render_template("esqueci_senha.html", code_sent=True, email=email)
 
             if not user:
                 flash("Email não encontrado.", "danger")
-                return render_template("esquecisenha.html", code_sent=False)
+                return render_template("esqueci_senha.html", code_sent=False)
 
             user.senha = bcrypt.hashpw(nova.encode("utf-8"), bcrypt.gensalt())
             db.session.commit()
@@ -189,8 +186,8 @@ def esquecisenha():
             flash("Senha redefinida com sucesso! Faça login.", "success")
             return redirect(url_for("login"))
 
-    # GET inicial
-    return render_template("esquecisenha.html", code_sent=False)
+
+    return render_template("esqueci_senha.html", code_sent=False)
 
 # -------- Minha conta --------
 @app.route("/minha_conta")
@@ -215,8 +212,7 @@ def delete_account():
     if action == "request_code":
         codigo = gerar_codigo()
         delete_codes[email] = {"code": codigo, "time": time.time()}
-        flash(f"Código: {codigo}", "info")  # Em produção: enviar por email.
-        # Redireciona com ?code_sent=1 para o JS mostrar o segundo form
+        flash(f"Código: {codigo}", "info")  
         return redirect(url_for("minha_conta", code_sent=1))
 
     # 2) Confirmar exclusão
@@ -238,9 +234,9 @@ def delete_account():
     flash("Ação inválida.", "danger")
     return redirect(url_for("minha_conta"))
 
-# =========================
+
 # Inicialização
-# =========================
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
