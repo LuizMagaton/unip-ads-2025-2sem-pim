@@ -26,7 +26,7 @@
               <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('login') }}">Link</a>
+              <a class="nav-link" href="{{ url_for('auth.login') }}">Link</a>
             </li>
 
           </ul>
@@ -38,12 +38,12 @@
                 Minha Conta
               </button>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="{{ url_for('minha_conta') }}">Perfil</a></li>
-                <li><a class="dropdown-item" href="{{ url_for('logout') }}">Sair</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('minha_conta.minha_conta_route') }}">Perfil</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Sair</a></li>
               </ul>
             </div>
             {% else %}
-            <a href="{{ url_for('login') }}" class="btn btn-outline-light me-2">Login</a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light me-2">Login</a>
             {% endif %}
           </div>
         </div>
@@ -65,7 +65,7 @@
             <h1>Crie sua conta agora!</h1>
             <p>Registre-se gratuitamente para acessar todos os recursos exclusivos da nossa plataforma. É rápido e
               seguro!</p>
-            <p><a class="btn btn-lg btn-primary" href="{{ url_for('register') }}">Registrar</a></p>
+            <p><a class="btn btn-lg btn-primary" href="{{ url_for('auth.register') }}">Registrar</a></p>
           </div>
         </div>
         <div class="carousel-item">

@@ -46,11 +46,11 @@
         <hr class="my-4">
         
         <div class="d-grid gap-2">
-          <a href="{{ url_for('logout') }}" class="btn btn-primary">Sair da conta</a>
+          <a href="{{ url_for('auth.logout') }}" class="btn btn-primary">Sair da conta</a>
           <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
             Excluir minha conta
           </button>
-          <a href="{{ url_for('index') }}" class="btn btn-outline-secondary mt-3">Voltar para Home</a>
+          <a href="{{ url_for('auth.index') }}" class="btn btn-outline-secondary mt-3">Voltar para Home</a>
         </div>
     </form>
     
