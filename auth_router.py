@@ -38,7 +38,7 @@ def register():
         db.session.commit()
 
         flash("Conta criada com sucesso! Faça login.", "success")
-        return redirect(url_for("login"))
+        return redirect(url_for("auth.login"))
 
     return render_template("register.html")
 
@@ -65,7 +65,7 @@ def login():
             session.permanent = True
 
         flash("Login realizado com sucesso!", "success")
-        return redirect(url_for("index"))
+        return redirect(url_for("auth.index"))
 
     return render_template("login.html")
 

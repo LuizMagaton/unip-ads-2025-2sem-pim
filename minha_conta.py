@@ -1,14 +1,12 @@
 from flask import request, Blueprint, flash, render_template, redirect, url_for, session
 from models import Usuario, db
 # Supondo que 'enviar_email_codigo' está em 'utils' ou em um novo módulo
-from utils import gerar_codigo, senha_forte, valido # Adicione enviar_email_codigo se estiver aqui
+from utils import gerar_codigo, senha_forte, valido, exigir_login,usuario_atual # Adicione enviar_email_codigo se estiver aqui
 import bcrypt, time
 
 # Variáveis globais/mock para códigos de reset e delete (idealmente estariam em um banco de dados ou cache)
 reset_codes = {}
 delete_codes = {}
-exigir_login = {}
-usuario_atual = {}
 
 # IMPORTANTE: Você deve importar as funções 'exigir_login', 'usuario_atual' e 'enviar_email_codigo'
 # Exemplo (Você deve ter essas funções em algum lugar, talvez em 'utils' ou outro módulo):
@@ -128,7 +126,7 @@ def delete_account():
             flash("Erro ao enviar o código. Tente novamente mais tarde.", "danger")
         
         # Código de debug removido/comentado: # flash(f"Código: {codigo}", "info") 
-        return redirect(url_for("minha_conta_route", code_sent=1))
+        return redirect(url_for("minha_conta.minha_conta_route", code_sent=1))
 
     # 2) Confirmar exclusão
     if action == "confirm_delete":
