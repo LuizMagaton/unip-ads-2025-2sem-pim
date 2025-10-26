@@ -1,6 +1,4 @@
-from flask import (
-    Flask
-)
+from flask import Flask
 from datetime import timedelta
 from models import db
 from auth_router import auth_router
